@@ -1,57 +1,20 @@
-# ROBOTIS Premium Humanoid A-Type Simulator
+# ROBOTIS Humanoid A-Type Simulator V4
 
-브라우저에서 실행하는 **18-motor Premium Humanoid A-Type 모션/포즈 실험용 시뮬레이터**입니다.
+GitHub/Cloudflare에 올릴 수 있는 정적 웹 시뮬레이터입니다.
 
-## 현재 버전에서 고친 것
-
-- ROBOTIS 공개 문서의 Premium Humanoid A-type 초기 모터값 18개 반영
-- 18개 모터 모두 3D 관절에 연결
-- 상위 관절 → 하위 관절로 이어지는 계층형 구조
-- 슬라이더와 숫자 입력을 서로 동기화
-- 0~1023 입력 검증 및 클램프
-- 초기 자세 복원
-- 현재 포즈 배열 표시/복사
-- 3D 회전/줌/정면/뷰 리셋
-- 모바일/좁은 화면 반응형 레이아웃
-- 외부 3D 모델(CAD) 없이 실행되는 정적 GitHub Pages 구조
-
-## 중요한 정확도 안내
-
-이 프로젝트의 **모터 ID, 초기값, 좌우 미러 그룹은 ROBOTIS가 공개한 Premium Humanoid A-type 예제를 기준**으로 했습니다.
-
-반면 브라우저의 3D 몸체는 ROBOTIS의 CAD/IGES 파일을 재배포하지 않고 동작을 검증하기 위해 만든 **단순화된 자체 모델**입니다. 따라서 이 버전은 실제 R+ Motion의 CAD 형상과 1:1 동일한 모델이라고 주장하지 않습니다.
-
-다음 단계에서는 실제 R+ Motion의 `RobotInfo/Object3D` 구조와 더 가까운 관절 좌표/축 보정을 추가할 수 있습니다.
+## V4 핵심 수정
+- AX-12+ 위치 범위 0–1023
+- **중앙값 512와 A-Type 초기 자세값(init)을 분리**
+- 초기 자세: `205,818,251,772,512,512,358,666,512,512,475,549,437,587,549,475,512,512`
+- 18개 모터 모두 슬라이더/숫자 입력 연결
+- 현재값 / 중앙값 / 초기 자세를 UI에서 구분
+- 관절을 계층형으로 구성하여 상위 관절 이동이 하위 링크에 전달
+- 정면/초기 자세/전체 중앙값/배열 복사 기능
 
 ## 실행
+`index.html`을 웹 서버, GitHub Pages, Cloudflare Workers/Pages 등 정적 호스팅에 배포합니다.
 
-`index.html`을 정적 웹서버 또는 GitHub Pages에서 실행합니다.
-
-### GitHub Pages
-
-1. GitHub 저장소 생성
-2. 이 폴더의 파일 업로드
-3. Settings → Pages
-4. Branch를 선택해 배포
-
-Three.js는 jsDelivr CDN을 사용합니다.
-
-## 모터 초기값
-
-```text
-[205, 818, 251, 772, 512, 512, 358, 666,
- 512, 512, 475, 549, 437, 587, 549, 475,
- 512, 512]
-```
-
-출처: ROBOTIS R+ Motion 문서의 Premium Humanoid A-type 예제.
-
-## 다음 개발 단계
-
-- 실제 R+ Motion `Object3D`에 가까운 관절 축/좌표 보정
-- 모터값 ↔ 각도 표시
-- Key Frame 편집
-- 모션 재생
-- 모션 저장/불러오기
-- R+ Motion 2/3용 값 출력 포맷
-- 손인사 같은 자연어 모션을 Key Frame으로 변환
+## 중요한 정확성 범위
+이 버전은 ROBOTIS 공식 문서의 A-Type 모터 init/mirror 정보와 1024-position 개념을 반영했습니다.
+3D 파트의 실제 ROBOTIS CAD와 `.rbt`의 모든 Object3D 변환행렬을 복제한 버전은 아닙니다.
+따라서 실제 R+ Motion 2.0과 기계적으로 1:1 동일한 자세 검증이 필요한 경우, 공식 A-Type `.rbt`/모델 데이터까지 직접 이식하는 다음 단계가 필요합니다.
